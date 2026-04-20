@@ -18,18 +18,21 @@ while(true)
             if($linha !== false && trim($linha) !== "")
             {
                 echo "Processando solicitação: " . trim($linha) . "\n";
-                $descricao_do_proesso = [STDIN, STDOUT, STDERR];
+                $descricao_do_proesso = [STDIN, STDOUT, STDERR]; # Define a origem de input e output como padrao
                 $processo = proc_open("php worker-tarefa.php " . trim($linha), $descricao_do_proesso, $pipes);
                 if (is_resource($processo))
                 {
-                    $status = proc_get_status($processo);
                     do
                     {
                         sleep(1);
                         $status = proc_get_status($processo);
                         echo ".";
-                    }while ($status['running']);
+                    } while ($status['running']);
                     proc_close($processo);
+                }
+                else 
+                {
+                    echo "Falha ao iniciar o processo para: " . trim($linha) . "\n";
                 }
                 if($status['exitcode'] === 0)
                 {
