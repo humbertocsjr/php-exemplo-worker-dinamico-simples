@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  meu-worker:
+    build: .
+    container_name: php_worker_1
+    # A mágica acontece aqui. Opções:
+    # 'always': Reinicia sempre que parar, mesmo se você reiniciar o servidor.
+    # 'unless-stopped': Reinicia sempre, EXCETO se você rodar 'docker stop php_worker_1'. (RECOMENDADO)
+    # 'on-failure': Reinicia apenas se o exit code for diferente de zero.
+    restart: unless-stopped
